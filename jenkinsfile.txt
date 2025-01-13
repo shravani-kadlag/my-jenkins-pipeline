@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        EMAIL_RECIPIENTS = 'kadlagshravani2004@gmail.com'
+    }
+
     stages{
         stage('Build'){
             steps{
@@ -18,6 +22,27 @@ pipeline {
                     sh 'echo Test command goes here'
                 }
             }
+        }
+        post {
+            success {
+                echo 'Build Succeeded!'
+                emailext(
+                     subject: "Build SUCCESS: ${JOB_NAME} #${BUILD_NUMBER}",
+                body: """<p>The Jenkins pipeline <b>${JOB_NAME}</b> (Build #${BUILD_NUMBER}) completed successfully.</p>
+                         <p>Click <a href="${BUILD_URL}">here</a> to view the build details.</p>""",
+                to: "${kadlagshravani2004@gmail.com}"
+            )
+                    
+            }
+              failure {
+            echo 'Build Failed!'
+            emailext(
+                subject: "Build FAILURE: ${JOB_NAME} #${BUILD_NUMBER}",
+                body: """<p>The Jenkins pipeline <b>${JOB_NAME}</b> (Build #${BUILD_NUMBER}) failed.</p>
+                         <p>Click <a href="${BUILD_URL}">here</a> to view the build details.</p>
+                         <p>Please investigate the issue.</p>""",
+                to: "${kadlagshravani2004@gmail.com}"
+            )
         }
     }
 }

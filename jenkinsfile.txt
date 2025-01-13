@@ -27,7 +27,7 @@ pipeline {
                 subject: "Build SUCCESS: ${JOB_NAME} #${BUILD_NUMBER}",
                 body: """<p>The Jenkins pipeline <b>${JOB_NAME}</b> (Build #${BUILD_NUMBER}) completed successfully.</p>
                          <p>Click <a href="${BUILD_URL}">here</a> to view the build details.</p>""",
-                to: "${kadlagshravani2004@gmail.com}"
+                to: "${EMAIL_RECIPIENTS}"
             )
         }
         failure {
@@ -37,7 +37,7 @@ pipeline {
                 body: """<p>The Jenkins pipeline <b>${JOB_NAME}</b> (Build #${BUILD_NUMBER}) failed.</p>
                          <p>Click <a href="${BUILD_URL}">here</a> to view the build details.</p>
                          <p>Please investigate the issue.</p>""",
-                to: "${kadlagshravani2004@gmail.com}"
+                to: "${EMAIL_RECIPIENTS}"
             )
         }
     }
